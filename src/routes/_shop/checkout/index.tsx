@@ -12,16 +12,10 @@ import { Input } from '@/components/ui/input';
 import { formatCurrency } from '@/lib/utils';
 import { api } from '@/lib/axios';
 import toast from 'react-hot-toast';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 export const Route = createFileRoute('/_shop/checkout/')({
   component: CheckoutPage,
 });
-
-const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY 
-  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY) 
-  : Promise.resolve(null);
 
 const shippingSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -38,45 +32,6 @@ const shippingSchema = z.object({
 
 type ShippingInput = z.infer<typeof shippingSchema>;
 
-// Stripe Payment Form Component
-function StripePaymentForm({ total, onSuccess, isProcessing, setIsProcessing }: any) {
-  const stripe = useStripe();
-  const elements = useElements();
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!stripe || !elements) return;
-
-    setIsProcessing(true);
-    const { error } = await stripe.confirmPayment({
-      elements,
-      redirect: 'if_required', // Avoid automatic redirect to handle it manually via React Router
-    });
-
-    if (error) {
-      toast.error(error.message || 'Payment failed');
-      setIsProcessing(false);
-    } else {
-      onSuccess();
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="p-4 border-2 border-neutral-200 rounded-sm bg-white">
-        <PaymentElement />
-      </div>
-      <Button 
-        type="submit"
-        className="w-full text-[13px] font-black tracking-widest uppercase py-6 bg-black text-white hover:bg-neutral-800" 
-        size="lg" 
-        disabled={!stripe || isProcessing}
-      >
-        {isProcessing ? 'Processing Securely...' : `Pay ${formatCurrency(total)}`}
-      </Button>
-    </form>
-  );
-}
 
 function CheckoutPage() {
   const navigate = useNavigate();
@@ -89,9 +44,7 @@ function CheckoutPage() {
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
   
   // Payment Intent State
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
-  const [isMockPayment, setIsMockPayment] = useState(false);
   
   const { register, formState: { errors }, trigger, getValues } = useForm<ShippingInput>({
     resolver: zodResolver(shippingSchema),
@@ -155,18 +108,18 @@ function CheckoutPage() {
         const createdOrderId = orderResponse.data.data.id || orderResponse.data.id;
         setOrderId(createdOrderId);
 
-        // 2. Fetch Payment Intent for this order
-        const intentResponse = await api.post('/payments/create-intent', {
+        // 2. Fetch Paystack Authorization URL
+        const intentResponse = await api.post('/payments/paystack/initialize', {
           orderId: createdOrderId,
           amount: total
         });
 
-        const secret = intentResponse.data.data?.clientSecret || intentResponse.data.clientSecret;
+        const authUrl = intentResponse.data.data?.authorizationUrl || intentResponse.data.authorizationUrl;
         
-        if (secret === 'mock_client_secret_for_dev' || !import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY) {
-          setIsMockPayment(true);
+        if (authUrl) {
+           window.location.href = authUrl;
         } else {
-          setClientSecret(secret);
+           throw new Error('No authorization URL received');
         }
 
         setStep(2);
@@ -188,14 +141,6 @@ function CheckoutPage() {
     });
   };
 
-  const handleMockPay = async () => {
-    setIsProcessing(true);
-    // Simulate payment delay
-    setTimeout(() => {
-      handleSuccess();
-      setIsProcessing(false);
-    }, 1500);
-  };
 
   if (items.length === 0) {
     return (
@@ -216,7 +161,7 @@ function CheckoutPage() {
         {/* Checkout Header */}
         <div className="mb-10 flex items-center justify-between border-b-2 border-black/5 pb-6">
           <Link to="/" className="font-heading font-black text-3xl tracking-[0.1em] uppercase text-charcoal">
-            Flairvigo
+            Roymall Scents
           </Link>
           <div className="flex items-center gap-3 text-[11px] font-black tracking-widest uppercase text-neutral-400">
             <span className={step === 1 ? 'text-black' : ''}>Shipping</span>
@@ -342,38 +287,13 @@ function CheckoutPage() {
 
               {step === 2 && (
                 <div className="space-y-6">
-                  {isMockPayment ? (
-                    <div className="p-6 border-2 border-dashed border-neutral-200 bg-neutral-50 text-center">
-                      <div className="w-12 h-12 bg-white border border-neutral-200 rounded-full flex items-center justify-center mx-auto mb-4 text-charcoal">
-                        <ShieldCheck size={24} />
-                      </div>
-                      <h3 className="font-black text-charcoal text-lg mb-2">Development Mode</h3>
-                      <p className="text-neutral-500 text-sm font-medium mb-6 max-w-sm mx-auto">
-                        Stripe API keys are missing or a mock token was provided. Use the button below to simulate a successful payment.
-                      </p>
-                      <Button 
-                        className="w-full max-w-sm text-[13px] font-black tracking-widest uppercase py-6 bg-black text-white hover:bg-neutral-800" 
-                        size="lg" 
-                        onClick={handleMockPay}
-                        disabled={isProcessing}
-                      >
-                        {isProcessing ? 'Processing...' : `Mock Pay ${formatCurrency(total)}`}
-                      </Button>
-                    </div>
-                  ) : clientSecret ? (
-                    <Elements stripe={stripePromise} options={{ clientSecret }}>
-                      <StripePaymentForm 
-                        total={total} 
-                        onSuccess={handleSuccess} 
-                        isProcessing={isProcessing}
-                        setIsProcessing={setIsProcessing}
-                      />
-                    </Elements>
-                  ) : (
-                    <div className="p-12 flex justify-center">
-                       <div className="w-8 h-8 border-2 border-neutral-200 border-t-charcoal rounded-full animate-spin" />
-                    </div>
-                  )}
+                  <div className="p-12 flex flex-col items-center justify-center text-center">
+                    <div className="w-12 h-12 border-4 border-neutral-200 border-t-black rounded-full animate-spin mb-6" />
+                    <h3 className="font-black text-charcoal text-lg mb-2">Redirecting to Paystack</h3>
+                    <p className="text-neutral-500 text-sm font-medium max-w-sm mx-auto">
+                      Please wait while we redirect you to our secure payment partner to complete your purchase.
+                    </p>
+                  </div>
                   
                   <p className="text-[11px] font-bold text-center text-neutral-400 mt-6 flex items-center justify-center gap-1.5 uppercase tracking-wide">
                     <Lock size={12} /> Encrypted via 256-bit SSL

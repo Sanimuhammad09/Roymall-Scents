@@ -26,7 +26,7 @@ function NotificationsPage() {
     },
     {
       id: '3',
-      title: 'Welcome to Flairvigo',
+      title: 'Welcome to Roymall Scents',
       message: 'Thanks for creating an account. Enjoy 10% off your first order with code WELCOME10.',
       date: '3 days ago',
       type: 'system',

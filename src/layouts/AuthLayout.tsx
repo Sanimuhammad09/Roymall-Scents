@@ -12,14 +12,14 @@ export function AuthLayout() {
       <div className="hidden lg:flex lg:w-1/2 relative bg-charcoal">
         <img 
           src={authImage} 
-          alt="Flairvigo Medical Professional"
+          alt="Roymall Scents Luxury Fragrances"
           className="absolute inset-0 w-full h-full object-cover opacity-80"
         />
         <div className="absolute inset-0 bg-charcoal/20" />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent" />
         <div className="absolute bottom-12 left-12 z-10 text-white max-w-lg">
-          <h2 className="heading-display text-4xl mb-4">ENGINEERED FOR <br/>THE EXCEPTIONAL</h2>
-          <p className="text-white/80 text-lg">Join the Flairvigo community and elevate your everyday performance.</p>
+          <h2 className="heading-display text-4xl mb-4">A PERFECT SCENT <br/>FOR EVERY MOOD</h2>
+          <p className="text-white/80 text-lg">Join Roymall Scents to discover your signature fragrance and manage your orders.</p>
         </div>
       </div>
 
@@ -35,7 +35,7 @@ export function AuthLayout() {
             <ArrowLeft size={22} strokeWidth={1.5} />
           </Link>
           <Link to="/">
-            <img src="/images/logo.png" alt="Flairvigo" className="h-16 w-auto object-contain" />
+            <img src="/images/logo.jpg" alt="Roymall Scents" className="h-16 w-auto object-contain" />
           </Link>
         </header>
 

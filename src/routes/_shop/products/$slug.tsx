@@ -30,15 +30,13 @@ function ProductDetailPage() {
 
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
-  const [selectedLength, setSelectedLength] = useState('Regular');
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState<'details' | 'fit' | 'fabric'>('details');
+  const [activeTab, setActiveTab] = useState<'description' | 'scent_notes' | 'ingredients'>('description');
   const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);
   const [mainImageIndex, setMainImageIndex] = useState(0);
   
   // Cross-sell state
   const [crossSellSize, setCrossSellSize] = useState('');
-  const [crossSellLength, setCrossSellLength] = useState('Regular');
 
   useEffect(() => {
     if (uniqueColors.length > 0 && !selectedColor) {
@@ -88,7 +86,7 @@ function ProductDetailPage() {
   
   const handleAddCrossSell = () => {
     if (!crossSellProduct || !crossSellVariant) {
-        toast.error('Please select a size for the complete set item');
+        toast.error('Please select a size for the complete collection item');
         return;
     }
     addItem({
@@ -102,7 +100,7 @@ function ProductDetailPage() {
       image: crossSellProduct.images?.[0]?.url || '',
       quantity: 1,
     });
-    toast.success('Added complete set to bag');
+    toast.success('Added complete collection item to bag');
   };
 
   if (isLoading) {
@@ -124,11 +122,7 @@ function ProductDetailPage() {
     );
   }
 
-  // Split colors for mock groups
-  const coreColors = uniqueColors.slice(0, Math.ceil(uniqueColors.length / 2) || 1);
-  const limitedColors = uniqueColors.slice(Math.ceil(uniqueColors.length / 2) || 1);
-
-  // Features list
+  // Features list for perfumes
   const featuresList = [
     "Long-lasting luxury fragrance",
     "Elegant glass bottle design",
@@ -142,7 +136,7 @@ function ProductDetailPage() {
     "Free of parabens and phthalates"
   ];
 
-  const sizeOrder = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL', '6XL'];
+  const sizeOrder = ['30ml', '50ml', '100ml', '150ml', '200ml'];
   const sortedSizes = [...availableSizes].sort((a, b) => sizeOrder.indexOf(a.size) - sizeOrder.indexOf(b.size));
 
   // Default to these standard sizes if variant list is empty for styling purposes
@@ -155,7 +149,7 @@ function ProductDetailPage() {
       {/* Breadcrumbs - Sticky Top Desktop */}
       <div className="hidden lg:block sticky top-0 z-40 bg-[#ffffff] border-b border-neutral-100 py-4 px-10">
         <nav className="flex items-center gap-2 text-[12px] font-bold text-charcoal">
-          <Link to="/" className="hover:text-black transition-colors">Women's</Link>
+          <Link to="/" className="hover:text-black transition-colors">Fragrances</Link>
           <span className="text-neutral-400">•</span>
           <Link to="/collections/$slug" params={{ slug: product.category.slug || 'all' }} className="hover:text-black transition-colors">
             {product.category.name}
@@ -173,7 +167,7 @@ function ProductDetailPage() {
           {/* Mobile Breadcrumb */}
           <div className="lg:hidden py-4 px-4 bg-[#ffffff]">
             <nav className="flex items-center gap-2 text-[11px] font-bold text-neutral-500">
-              <Link to="/" className="hover:text-black transition-colors">Women's</Link>
+              <Link to="/" className="hover:text-black transition-colors">Fragrances</Link>
               <span className="text-neutral-300">•</span>
               <Link to="/collections/$slug" params={{ slug: product.category.slug || 'all' }} className="hover:text-black transition-colors">
                 {product.category.name}
@@ -217,13 +211,6 @@ function ProductDetailPage() {
                   <ChevronRight size={20} />
                 </button>
              </div>
-             
-             {/* Play Button Overlay (Mock) */}
-             {mainImageIndex === 0 && (
-               <div className="absolute top-6 right-6 w-10 h-10 bg-[#ffffff] rounded-full flex items-center justify-center shadow-md text-charcoal cursor-pointer">
-                 <div className="w-3 h-3 bg-charcoal ml-1 clip-play" style={{ clipPath: 'polygon(0 0, 0% 100%, 100% 50%)' }}></div>
-               </div>
-             )}
           </div>
         </div>
 
@@ -258,81 +245,12 @@ function ProductDetailPage() {
               {formatCurrency(price)}
             </p>
 
-            {/* Color Selection */}
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <p className="text-[13px] font-bold text-charcoal">
-                  Color: <span className="text-neutral-500 font-normal">{selectedColor}</span>
-                </p>
-                <button className="text-[12px] font-bold text-charcoal underline underline-offset-4 decoration-neutral-300 hover:decoration-charcoal">
-                  Color Gallery
-                </button>
-              </div>
-              
-              {/* Filter Pills */}
-              <div className="flex gap-2 mb-4">
-                 <button className="px-4 py-1.5 bg-neutral-100 text-charcoal text-[11px] font-bold rounded-full border border-neutral-200">All Colors</button>
-                 <button className="px-4 py-1.5 text-neutral-500 hover:bg-neutral-50 text-[11px] font-bold rounded-full transition-colors border border-transparent">My Colors</button>
-              </div>
-
-              {/* Core Colors */}
-              {coreColors.length > 0 && (
-                <div className="mb-4">
-                  <p className="text-[11px] font-bold text-charcoal mb-3">Core</p>
-                  <div className="flex flex-wrap gap-2.5">
-                    {coreColors.map((color) => (
-                      <button
-                        key={color.name}
-                        onClick={() => { setSelectedColor(color.name); setSelectedSize(''); }}
-                        className={`relative w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all ${
-                          selectedColor === color.name ? 'ring-2 ring-charcoal ring-offset-2' : 'hover:ring-1 hover:ring-neutral-300 hover:ring-offset-1'
-                        }`}
-                        title={color.name}
-                      >
-                        <span className="block w-full h-full rounded-full border border-black/10" style={{ backgroundColor: color.hex }} />
-                        {selectedColor === color.name && (
-                          <Check size={14} strokeWidth={3} className={`absolute z-10 ${color.hex === '#000000' || color.hex === '#340A0A' ? 'text-[#ffffff]' : 'text-[#ffffff] drop-shadow-md'}`} />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Limited Edition Colors */}
-              {limitedColors.length > 0 && (
-                <div>
-                  <p className="text-[11px] font-bold text-charcoal mb-3">Limited Edition</p>
-                  <div className="flex flex-wrap gap-2.5">
-                    {limitedColors.map((color) => (
-                      <button
-                        key={color.name}
-                        onClick={() => { setSelectedColor(color.name); setSelectedSize(''); }}
-                        className={`relative w-[30px] h-[30px] rounded-full flex items-center justify-center transition-all ${
-                          selectedColor === color.name ? 'ring-2 ring-charcoal ring-offset-2' : 'hover:ring-1 hover:ring-neutral-300 hover:ring-offset-1'
-                        }`}
-                        title={color.name}
-                      >
-                        <span className="block w-full h-full rounded-full border border-black/10" style={{ backgroundColor: color.hex }} />
-                        {selectedColor === color.name && (
-                          <Check size={14} strokeWidth={3} className={`absolute z-10 ${color.hex === '#FFFFFF' || color.hex === '#FFF9E3' ? 'text-charcoal' : 'text-[#ffffff] drop-shadow-md'}`} />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
             {/* Size Selection */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
-                <p className="text-[13px] font-bold text-charcoal">Select a Size</p>
-                <button className="text-[12px] font-bold text-charcoal underline underline-offset-4 decoration-neutral-300 hover:decoration-charcoal">
-                  Size Chart
-                </button>
+                <p className="text-[13px] font-bold text-charcoal">Select bottle size:</p>
               </div>
-              <div className="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-5 gap-2 mb-3">
+              <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-4 gap-2 mb-3">
                 {displaySizes.map(({ size, inStock }) => (
                   <button
                      key={size}
@@ -351,31 +269,11 @@ function ProductDetailPage() {
                   </button>
                 ))}
               </div>
-              <p className="text-[12px] text-neutral-500">Relaxed fit. We recommend choosing your normal size.</p>
-            </div>
-
-            {/* Length Selection */}
-            <div className="mb-10">
-              <p className="text-[13px] font-bold text-charcoal mb-3">Length: <span className="font-normal text-neutral-500">{selectedLength}</span></p>
-              <div className="grid grid-cols-3 gap-2">
-                 {['Regular', 'Petite', 'Tall'].map(len => (
-                   <button
-                     key={len}
-                     onClick={() => setSelectedLength(len)}
-                     className={`py-3 text-[12px] font-bold transition-all rounded-[2px] ${
-                       selectedLength === len
-                         ? 'border-2 border-charcoal text-charcoal shadow-[inset_0_0_0_1px_rgba(0,0,0,1)] bg-[#ffffff]'
-                         : 'border border-neutral-300 text-charcoal hover:border-charcoal bg-[#ffffff]'
-                     }`}
-                   >
-                     {len}
-                   </button>
-                 ))}
-              </div>
+              <p className="text-[12px] text-neutral-500">Available in standard volumes. Cruelty-free & long-lasting.</p>
             </div>
 
             {/* Add to Bag Button */}
-            <div className="mb-10">
+            <div className="mb-10 mt-8">
               <button
                 className={`w-full text-[12px] font-bold tracking-widest uppercase py-4 rounded-[2px] transition-all flex items-center justify-center gap-2 ${
                   !selectedSize || (selectedVariant && selectedVariant.inventory <= 0)
@@ -399,22 +297,22 @@ function ProductDetailPage() {
                <button className="text-[11px] text-neutral-500 underline underline-offset-2 mt-1">Learn More</button>
             </div>
 
-            {/* Complete The Set (Inline Widget) */}
+            {/* Complete The Collection (Inline Widget) */}
             {relatedProductsData && relatedProductsData.length > 0 && (
               <div className="mb-10">
-                <h3 className="text-[14px] font-bold text-charcoal mb-4">Complete The Set</h3>
+                <h3 className="text-[14px] font-bold text-charcoal mb-4">Complete The Collection</h3>
                 <div className="flex gap-4 mb-4">
                   <div className="w-[80px] h-[100px] bg-neutral-100 shrink-0 relative">
                      <img src={relatedProductsData[0].images?.[0]?.url} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
                      <p className="font-bold text-[13px] text-charcoal">{relatedProductsData[0].name}</p>
-                     <p className="text-[12px] text-neutral-500 mt-1">{relatedProductsData[0].variants?.[0]?.color || 'Deep Purple'}</p>
+                     <p className="text-[12px] text-neutral-500 mt-1">{relatedProductsData[0].variants?.[0]?.color || 'Eau de Parfum'}</p>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-2 mb-3">
-                   <div className="relative border border-neutral-300 rounded-[2px] bg-[#ffffff]">
+                <div className="mb-3 w-full">
+                   <div className="relative border border-neutral-300 rounded-[2px] bg-[#ffffff] w-full">
                      <select 
                        className="w-full appearance-none bg-transparent py-3 pl-4 pr-10 text-[12px] font-bold text-charcoal outline-none cursor-pointer"
                        value={crossSellSize}
@@ -424,16 +322,6 @@ function ProductDetailPage() {
                        {relatedProductsData[0].variants?.map(v => (
                          <option key={v.id} value={v.size}>{v.size}</option>
                        ))}
-                     </select>
-                     <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-charcoal" />
-                   </div>
-                   <div className="relative border border-neutral-300 rounded-[2px] bg-[#ffffff]">
-                     <select 
-                       className="w-full appearance-none bg-transparent py-3 pl-4 pr-10 text-[12px] font-bold text-charcoal outline-none cursor-pointer"
-                       value={crossSellLength}
-                       onChange={(e) => setCrossSellLength(e.target.value)}
-                     >
-                       <option>Regular</option><option>Petite</option><option>Tall</option>
                      </select>
                      <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-charcoal" />
                    </div>
@@ -448,24 +336,24 @@ function ProductDetailPage() {
               </div>
             )}
 
-            {/* Details / Fit / Fabric Pills */}
+            {/* Description / Scent Notes / Ingredients Pills */}
             <div className="bg-[#f0f0f0] rounded-full p-1 flex mb-6 mt-8">
-               {(['details', 'fit', 'fabric'] as const).map(tab => (
+               {(['description', 'scent_notes', 'ingredients'] as const).map(tab => (
                  <button
                    key={tab}
-                   onClick={() => setActiveTab(tab)}
+                   onClick={() => setActiveTab(tab as any)}
                    className={`flex-1 py-2 text-[11px] font-bold tracking-widest uppercase rounded-full transition-all ${
                      activeTab === tab ? 'bg-[#ffffff] shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-charcoal' : 'text-neutral-500 hover:text-charcoal'
                    }`}
                  >
-                   {tab}
+                   {tab === 'description' ? 'Description' : tab === 'scent_notes' ? 'Scent Notes' : 'Ingredients'}
                  </button>
                ))}
             </div>
 
             {/* Tab Content */}
             <div className="text-[13px] text-neutral-600 leading-relaxed font-medium mb-10 min-h-[200px]">
-               {activeTab === 'details' && (
+               {activeTab === 'description' && (
                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
                    <p>Experience the luxurious aura of {product.name}. Carefully blended to create a lasting impression with {featuresList.length} distinct characteristics.</p>
                    <p>Select sizes also available in an <span className="underline underline-offset-4 decoration-neutral-300">exclusive gift set</span> with complimentary engraving.</p>
@@ -479,14 +367,18 @@ function ProductDetailPage() {
                    </ul>
                  </motion.div>
                )}
-               {activeTab === 'fit' && (
+               {activeTab === 'scent_notes' && (
                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                   <p>Available in various volumes. We recommend the 100ml for your signature daily scent.</p>
+                   <p className="font-bold mb-2">Fragrance Notes Hierarchy:</p>
+                   <p>{product.fabricDetails || 'Top Notes: Citrus, Floral. Heart Notes: Jasmine, Spice. Base Notes: Wood, Vanilla, Amber.'}</p>
                  </motion.div>
                )}
-               {activeTab === 'fabric' && (
+               {activeTab === 'ingredients' && (
                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                   <p>{product.fabricDetails || 'Alcohol Denat., Fragrance (Parfum), Water (Aqua), Linalool, Limonene. Store in a cool, dry place away from direct sunlight.'}</p>
+                   <p className="font-bold mb-2">Ingredients:</p>
+                   <p>Alcohol Denat., Water (Aqua), Fragrance (Parfum), Linalool, Limonene, Citral, Citronellol, Geraniol.</p>
+                   <p className="mt-4 font-bold mb-2">Storage & Use:</p>
+                   <p>{product.careInstructions || 'Store in a cool, dry place away from direct sunlight. Avoid spraying near open flames.'}</p>
                  </motion.div>
                )}
             </div>
@@ -523,11 +415,11 @@ function ProductDetailPage() {
         )}
       </AnimatePresence>
 
-      {/* Wear It With Section */}
+      {/* Related Products Section */}
       <section className="border-t border-neutral-200 pt-16 pb-24 bg-[#ffffff] mt-10">
         <div className="max-w-[2000px] mx-auto px-6 lg:px-12">
           <h2 className="font-heading font-black text-2xl lg:text-3xl tracking-tight text-charcoal mb-10">
-            Pair It With
+            You May Also Like
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6">
             {relatedProductsData?.map((p) => (
@@ -538,7 +430,7 @@ function ProductDetailPage() {
                 name={p.name}
                 price={p.basePrice}
                 images={p.images || []}
-                colors={p.variants?.map(v => ({ name: v.color, hex: v.colorHex || '#000000' })) || []}
+                colors={[]}
                 isNew={p.isFeatured}
               />
             ))}

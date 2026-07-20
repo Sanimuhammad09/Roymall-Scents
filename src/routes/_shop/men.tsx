@@ -1,118 +1,105 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
+import { api } from '../../lib/axios';
 import { HeroSection } from '../../features/shop/components/HeroSection';
 import { CategoryNavCarousel } from '../../features/shop/components/CategoryNavCarousel';
 import { ProductCarousel } from '../../features/shop/components/ProductCarousel';
-import { ShopByColor } from '../../features/shop/components/ShopByColor';
-import { Product } from '../../features/shop/components/ProductCard';
+import { ShopByColor as ShopByScentProfile } from '../../features/home/components/ShopByColor';
 
 export const Route = createFileRoute('/_shop/men')({
   component: MenHomePage,
 });
 
-const MOCK_CATEGORIES = [
-  { id: '1', name: 'Perfume Tops', slug: 'perfume-tops', imageUrl: 'https://images.unsplash.com/photo-1620857321285-8f6fc6e23db9?auto=format&fit=crop&q=80&w=300' },
-  { id: '2', name: 'Gift Sets', slug: 'gift-sets', imageUrl: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=300' },
-  { id: '3', name: 'Solid Perfumes', slug: 'solid-perfumes', imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=80&w=300' },
-  { id: '4', name: 'Travel Sizes', slug: 'travel-sizes', imageUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=300' },
-];
-
-const MOCK_BEST_SELLERS: Product[] = [
-  {
-    id: 'p1m',
-    name: 'Leon™ Signature Scent',
-    slug: 'leon-signature-scent',
-    basePrice: 38,
-    categoryName: 'Perfumes',
-    imageUrl: 'https://images.unsplash.com/photo-1620857321285-8f6fc6e23db9?auto=format&fit=crop&q=80&w=600',
-    variants: [
-      { id: 'v1', color: 'Navy', colorHex: '#0F172A' },
-      { id: 'v2', color: 'Ceil Blue', colorHex: '#6484A4' },
-    ]
-  },
-  {
-    id: 'p2m',
-    name: 'Tansen™ Eau de Parfum',
-    slug: 'tansen-eau-de-parfum',
-    basePrice: 48,
-    categoryName: 'Perfumes',
-    imageUrl: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=600',
-    variants: [
-      { id: 'v1', color: 'Navy', colorHex: '#0F172A' },
-      { id: 'v2', color: 'Ceil Blue', colorHex: '#6484A4' },
-      { id: 'v3', color: 'Black', colorHex: '#000000' },
-    ]
-  },
-  {
-    id: 'p3m',
-    name: 'Mac™ Travel Spray',
-    slug: 'mac-travel-spray',
-    basePrice: 88,
-    categoryName: 'Travel Sizes',
-    imageUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=80&w=600',
-    variants: [
-      { id: 'v1', color: 'Navy', colorHex: '#0F172A' },
-    ]
-  },
-  {
-    id: 'p4m',
-    name: 'Cairo™ Gift Set',
-    slug: 'cairo-gift-set',
-    basePrice: 48,
-    categoryName: 'Gift Sets',
-    imageUrl: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=600',
-    variants: [
-      { id: 'v1', color: 'Navy', colorHex: '#0F172A' },
-      { id: 'v2', color: 'Black', colorHex: '#000000' },
-    ]
-  },
-];
-
-const MOCK_COLORS = [
-  { id: 'c1', name: 'Navy', hex: '#0F172A', imageUrl: 'https://images.unsplash.com/photo-1620857321285-8f6fc6e23db9?auto=format&fit=crop&q=80&w=400' },
-  { id: 'c2', name: 'Black', hex: '#000000', imageUrl: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=400' },
-  { id: 'c5', name: 'Hunter Green', hex: '#14532D', imageUrl: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=400' },
-  { id: 'c6', name: 'Graphite', hex: '#3F3F46', imageUrl: 'https://images.unsplash.com/photo-1620857321285-8f6fc6e23db9?auto=format&fit=crop&q=80&w=400' },
-];
-
 function MenHomePage() {
+  // Fetch products under the 'men' collection from the API
+  const { data: productsData, isLoading: isProductsLoading } = useQuery({
+    queryKey: ['collection-products', 'men'],
+    queryFn: async () => {
+      const { data } = await api.get('/products?collection=men');
+      return data.data || data;
+    },
+  });
+
+  // Fetch categories from the API
+  const { data: categoriesData } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const { data } = await api.get('/categories');
+      return data.data || data;
+    },
+  });
+
+  const products = productsData || [];
+  const categories = categoriesData || [];
+
+  // Map products to the structure required by ProductCard (excluding variants to hide color swatches)
+  const mappedProducts = products.map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    slug: p.slug,
+    basePrice: p.basePrice,
+    imageUrl: p.images?.[0]?.url || '/images/perfume_product.png',
+    categoryName: p.category?.name || 'Perfumes',
+    variants: [], // Empty array hides color swatches
+  }));
+
+  // Filter out top-level gender categories for the nav carousel
+  const displayCategories = categories
+    .filter((c: any) => !['womens-fragrances', 'mens-fragrances'].includes(c.slug))
+    .map((c: any) => ({
+      id: c.id,
+      name: c.name,
+      slug: c.slug,
+      imageUrl: c.image || '/images/perfume_product.png',
+    }));
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
       <HeroSection
         title="Men's Core Fragrances"
-        subtitle="Uncompromising comfort and utility."
+        subtitle="Signature scents crafted with premium colognes, rich woods, and warm spices."
         imageUrl="https://images.unsplash.com/photo-1620857321285-8f6fc6e23db9?auto=format&fit=crop&q=80&w=2000"
-        ctaText="Shop All Men's"
+        ctaText="Shop All Men's Scents"
         ctaLink="/collections/men"
       />
 
       {/* Category Navigation */}
-      <CategoryNavCarousel categories={MOCK_CATEGORIES} baseUrl="/collections/men" />
+      {displayCategories.length > 0 && (
+        <CategoryNavCarousel categories={displayCategories} baseUrl="/collections" />
+      )}
 
       {/* Best Sellers Product Carousel */}
-      <ProductCarousel
-        title="Best Sellers"
-        products={MOCK_BEST_SELLERS}
-        viewAllLink="/collections/men"
-      />
+      {!isProductsLoading && mappedProducts.length > 0 && (
+        <ProductCarousel
+          title="Best Sellers"
+          products={mappedProducts}
+          viewAllLink="/collections/men"
+        />
+      )}
 
+      {/* Secondary Banner - New Arrivals */}
       <div className="py-8">
         <HeroSection
           title="New Arrivals"
-          subtitle="Refresh your rotation."
+          subtitle="Elevate your style with our latest long-lasting masculine scent additions."
           imageUrl="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=2000"
           ctaText="Shop New Arrivals"
           ctaLink="/collections/new-arrivals"
         />
       </div>
 
-      <ShopByColor colors={MOCK_COLORS} />
+      {/* Shop By Scent Profile (adapted from homepage's ShopByColor) */}
+      <ShopByScentProfile />
 
-      <ProductCarousel
-        title="Top Rated"
-        products={[...MOCK_BEST_SELLERS].reverse()}
-        viewAllLink="/collections/men"
-      />
+      {/* Top Rated Product Carousel */}
+      {!isProductsLoading && mappedProducts.length > 0 && (
+        <ProductCarousel
+          title="Top Rated"
+          products={[...mappedProducts].reverse()}
+          viewAllLink="/collections/men"
+        />
+      )}
     </div>
   );
 }

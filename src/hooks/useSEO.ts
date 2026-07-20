@@ -10,7 +10,7 @@ interface SEOProps {
 }
 
 export function useSEO({
-  title = 'Flairvigo',
+  title = 'Roymall Scents',
   description = 'Premium luxury fragrances and perfumes. Shop our collection of high-performance, stylish signature scents.',
   keywords = 'luxury perfume, fragrances, signature scents, roymall scents',
   ogImage = '/og-image.jpg',
@@ -18,7 +18,7 @@ export function useSEO({
   canonical,
 }: SEOProps = {}) {
   useEffect(() => {
-    const fullTitle = title === 'Flairvigo' ? title : `${title} | Flairvigo`;
+    const fullTitle = title === 'Roymall Scents' ? title : `${title} | Roymall Scents`;
     document.title = fullTitle;
 
     // Meta description
@@ -45,7 +45,7 @@ export function useSEO({
       'og:description': description,
       'og:type': ogType,
       'og:image': ogImage,
-      'og:site_name': 'Flairvigo',
+      'og:site_name': 'Roymall Scents',
     };
 
     Object.entries(ogTags).forEach(([property, content]) => {

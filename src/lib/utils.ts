@@ -143,7 +143,7 @@ export function getPlaceholderImage(
   height: number,
   text?: string
 ): string {
-  return `https://placehold.co/${width}x${height}/1a1a2e/c9a96e?text=${encodeURIComponent(text || 'Flairvigo')}`;
+  return `https://placehold.co/${width}x${height}/1a1a2e/c9a96e?text=${encodeURIComponent(text || 'Roymall Scents')}`;
 }
 
 /**

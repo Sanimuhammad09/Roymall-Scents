@@ -16,7 +16,7 @@ function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-charcoal mb-3">1. Acceptance of Terms</h2>
             <p className="text-neutral-600 leading-relaxed">
-              By accessing or using the Flairvigo website, you agree to be bound by these Terms of 
+              By accessing or using the Roymall Scents website, you agree to be bound by these Terms of 
               Service and our Privacy Policy. If you do not agree, please do not use our services.
             </p>
           </section>
@@ -26,7 +26,7 @@ function TermsPage() {
             <p className="text-neutral-600 leading-relaxed">
               All product descriptions, images, and prices are subject to change without notice. 
               We reserve the right to modify or discontinue products at any time. Prices are listed 
-              in USD and do not include applicable taxes or shipping charges.
+              in NGN and do not include applicable taxes or shipping charges.
             </p>
           </section>
 
@@ -51,8 +51,8 @@ function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-charcoal mb-3">5. Returns & Refunds</h2>
             <p className="text-neutral-600 leading-relaxed">
-              Items may be returned within 30 days of delivery in unworn, original condition with 
-              tags attached. Personalized/embroidered items are final sale. Refunds are processed 
+              Items may be returned within 30 days of delivery in unopened, original packaging with 
+              cellowrap intact. Personalized or engraved items are final sale. Refunds are processed 
               to the original payment method within 5-10 business days.
             </p>
           </section>
@@ -61,7 +61,7 @@ function TermsPage() {
             <h2 className="text-xl font-bold text-charcoal mb-3">6. Intellectual Property</h2>
             <p className="text-neutral-600 leading-relaxed">
               All content on this website, including text, images, logos, and designs, is the 
-              property of Flairvigo and protected by copyright and trademark laws. Unauthorized 
+              property of Roymall Scents and protected by copyright and trademark laws. Unauthorized 
               use is strictly prohibited.
             </p>
           </section>
@@ -69,7 +69,7 @@ function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-charcoal mb-3">7. Limitation of Liability</h2>
             <p className="text-neutral-600 leading-relaxed">
-              Flairvigo shall not be liable for any indirect, incidental, special, or consequential 
+              Roymall Scents shall not be liable for any indirect, incidental, special, or consequential 
               damages arising from the use of our products or services. Our total liability shall 
               not exceed the amount paid for the product in question.
             </p>
@@ -79,8 +79,8 @@ function TermsPage() {
             <h2 className="text-xl font-bold text-charcoal mb-3">8. Contact</h2>
             <p className="text-neutral-600 leading-relaxed">
               For questions about these Terms, contact us at{' '}
-              <a href="mailto:legal@flairvigo.com" className="text-charcoal font-semibold underline">
-                legal@flairvigo.com
+              <a href="mailto:legal@roymallscents.com" className="text-charcoal font-semibold underline">
+                legal@roymallscents.com
               </a>.
             </p>
           </section>

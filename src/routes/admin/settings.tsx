@@ -32,11 +32,11 @@ function AdminSettingsPage() {
           <div className="space-y-6 max-w-xl">
             <div>
               <label className="text-[11px] font-black text-charcoal uppercase tracking-widest block mb-3">Store Name</label>
-              <Input defaultValue="Flairvigo" className="h-12 bg-neutral-50 border-neutral-200 rounded-xl font-medium focus-visible:ring-charcoal" />
+              <Input defaultValue="Roymall Scents" className="h-12 bg-neutral-50 border-neutral-200 rounded-xl font-medium focus-visible:ring-charcoal" />
             </div>
             <div>
               <label className="text-[11px] font-black text-charcoal uppercase tracking-widest block mb-3">Contact Email</label>
-              <Input defaultValue="support@flairvigo.com" className="h-12 bg-neutral-50 border-neutral-200 rounded-xl font-medium focus-visible:ring-charcoal" />
+              <Input defaultValue="support@roymallscents.com" className="h-12 bg-neutral-50 border-neutral-200 rounded-xl font-medium focus-visible:ring-charcoal" />
             </div>
           </div>
         </div>

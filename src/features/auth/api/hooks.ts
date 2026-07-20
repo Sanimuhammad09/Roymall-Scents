@@ -63,7 +63,7 @@ export function useRegister() {
     onSuccess: (data) => {
       const { user, accessToken, refreshToken } = data;
       setAuth(user, accessToken, refreshToken);
-      toast.success(`Welcome to Flairvigo, ${user.firstName}!`);
+      toast.success(`Welcome to Roymall Scents, ${user.firstName}!`);
       navigate({ to: '/' });
     },
     onError: (error: any) => {

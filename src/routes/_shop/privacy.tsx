@@ -61,7 +61,7 @@ function PrivacyPage() {
             <h2 className="text-xl font-bold text-charcoal mb-3">6. Your Rights</h2>
             <p className="text-neutral-600 leading-relaxed">
               You have the right to access, correct, or delete your personal data at any time. 
-              You may also opt out of marketing communications. Contact us at privacy@flairvigo.com 
+              You may also opt out of marketing communications. Contact us at privacy@roymallscents.com 
               to exercise these rights.
             </p>
           </section>
@@ -70,8 +70,8 @@ function PrivacyPage() {
             <h2 className="text-xl font-bold text-charcoal mb-3">7. Contact Us</h2>
             <p className="text-neutral-600 leading-relaxed">
               If you have questions about this Privacy Policy, please contact us at{' '}
-              <a href="mailto:privacy@flairvigo.com" className="text-charcoal font-semibold underline">
-                privacy@flairvigo.com
+              <a href="mailto:privacy@roymallscents.com" className="text-charcoal font-semibold underline">
+                privacy@roymallscents.com
               </a>.
             </p>
           </section>

@@ -134,7 +134,7 @@ export function ProductForm({ onSubmit, onCancel, categories, isLoading, initial
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-xs font-bold text-charcoal mb-2 uppercase tracking-wide">Product Name</label>
-                <Input {...register('name')} placeholder="e.g. The Premium Cotton Tee" className="h-12 bg-neutral-50 border-neutral-200 rounded-xl focus-visible:ring-1 focus-visible:ring-charcoal" />
+                <Input {...register('name')} placeholder="e.g. Velvet Rose Eau de Parfum" className="h-12 bg-neutral-50 border-neutral-200 rounded-xl focus-visible:ring-1 focus-visible:ring-charcoal" />
                 {errors.name && <p className="text-red-500 text-xs font-semibold mt-1.5">{errors.name.message}</p>}
               </div>
               <div>
@@ -175,12 +175,12 @@ export function ProductForm({ onSubmit, onCancel, categories, isLoading, initial
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold text-charcoal mb-2 uppercase tracking-wide">Fabric Details <span className="text-neutral-400 font-normal normal-case">(Optional)</span></label>
-                <Input {...register('fabricDetails')} placeholder="e.g. 100% Cotton" className="h-12 bg-neutral-50 border-neutral-200 rounded-xl" />
+                <label className="block text-xs font-bold text-charcoal mb-2 uppercase tracking-wide">Scent Notes <span className="text-neutral-400 font-normal normal-case">(Optional)</span></label>
+                <Input {...register('fabricDetails')} placeholder="e.g. Top Notes: Rose. Heart Notes: Oud." className="h-12 bg-neutral-50 border-neutral-200 rounded-xl" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-charcoal mb-2 uppercase tracking-wide">Care Instructions <span className="text-neutral-400 font-normal normal-case">(Optional)</span></label>
-                <Input {...register('careInstructions')} placeholder="e.g. Machine wash cold" className="h-12 bg-neutral-50 border-neutral-200 rounded-xl" />
+                <label className="block text-xs font-bold text-charcoal mb-2 uppercase tracking-wide">Ingredients & Storage <span className="text-neutral-400 font-normal normal-case">(Optional)</span></label>
+                <Input {...register('careInstructions')} placeholder="e.g. Store in a cool, dry place. Contains Alcohol Denat." className="h-12 bg-neutral-50 border-neutral-200 rounded-xl" />
               </div>
             </div>
             <div className="flex items-center gap-3 p-4 bg-neutral-50 border border-neutral-100 rounded-xl">
@@ -211,15 +211,15 @@ export function ProductForm({ onSubmit, onCancel, categories, isLoading, initial
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
                     <div>
                       <label className="block text-[10px] font-black text-neutral-400 mb-1.5 uppercase tracking-widest">SKU</label>
-                      <Input value={variant.sku} onChange={(e) => updateVariant(index, 'sku', e.target.value)} placeholder="SKU-123" className="h-10 bg-neutral-50 border-neutral-200 text-sm" />
+                      <Input value={variant.sku} onChange={(e) => updateVariant(index, 'sku', e.target.value)} placeholder="e.g. W-VROSE-50" className="h-10 bg-neutral-50 border-neutral-200 text-sm" />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black text-neutral-400 mb-1.5 uppercase tracking-widest">Color</label>
-                      <Input value={variant.color} onChange={(e) => updateVariant(index, 'color', e.target.value)} placeholder="Navy" className="h-10 bg-neutral-50 border-neutral-200 text-sm" />
+                      <label className="block text-[10px] font-black text-neutral-400 mb-1.5 uppercase tracking-widest">Bottle Style / Color</label>
+                      <Input value={variant.color} onChange={(e) => updateVariant(index, 'color', e.target.value)} placeholder="e.g. Rose Gold" className="h-10 bg-neutral-50 border-neutral-200 text-sm" />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black text-neutral-400 mb-1.5 uppercase tracking-widest">Size</label>
-                      <Input value={variant.size} onChange={(e) => updateVariant(index, 'size', e.target.value)} placeholder="M" className="h-10 bg-neutral-50 border-neutral-200 text-sm" />
+                      <label className="block text-[10px] font-black text-neutral-400 mb-1.5 uppercase tracking-widest">Size / Volume</label>
+                      <Input value={variant.size} onChange={(e) => updateVariant(index, 'size', e.target.value)} placeholder="e.g. 50ml" className="h-10 bg-neutral-50 border-neutral-200 text-sm" />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-neutral-400 mb-1.5 uppercase tracking-widest">Inventory</label>

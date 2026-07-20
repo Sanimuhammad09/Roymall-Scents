@@ -117,7 +117,7 @@ export function ProductCard({
             Quick Add
           </span>
           <div className="flex items-center justify-center gap-2">
-            {['XS', 'S', 'M', 'L', 'XL'].map((size) => (
+            {['10ml', '50ml', '100ml'].map((size) => (
               <button 
                 key={size}
                 className="w-10 h-10 flex items-center justify-center text-[12px] font-bold uppercase border border-neutral-200 hover:border-black hover:bg-black hover:text-white transition-all bg-white text-black"
@@ -156,7 +156,7 @@ export function ProductCard({
         </div>
 
         <p className="text-[11px] font-bold text-neutral-500 uppercase tracking-widest mt-0.5">
-          {colors && colors.length > 0 ? colors[activeColorIndex].name : 'Deep Purple'}
+           {colors && colors.length > 0 ? colors[activeColorIndex].name : 'Eau de Parfum'}
         </p>
 
         {/* Color Swatches */}

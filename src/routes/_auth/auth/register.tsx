@@ -42,7 +42,7 @@ function RegisterPage() {
           Create Account
         </h1>
         <p className="text-neutral-500 text-sm">
-          Join the Flairvigo community and discover premium fashion.
+          Join Roymall Scents and discover premium fragrances.
         </p>
       </div>
 

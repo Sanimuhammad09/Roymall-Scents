@@ -44,8 +44,8 @@ import { Route as ShopCheckoutIndexRouteImport } from './routes/_shop/checkout/i
 import { Route as ShopCheckoutSuccessRouteImport } from './routes/_shop/checkout/success'
 import { Route as ShopCollectionsSlugRouteImport } from './routes/_shop/collections/$slug'
 import { Route as ShopCollectionsMixAndMatchRouteImport } from './routes/_shop/collections/mix-and-match'
-import { Route as ShopFitFinderIndexRouteImport } from './routes/_shop/fit-finder/index'
 import { Route as ShopProductsSlugRouteImport } from './routes/_shop/products/$slug'
+import { Route as ShopScentFinderIndexRouteImport } from './routes/_shop/scent-finder/index'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -222,14 +222,14 @@ const ShopCollectionsMixAndMatchRoute =
     path: '/collections/mix-and-match',
     getParentRoute: () => ShopRoute,
   } as any)
-const ShopFitFinderIndexRoute = ShopFitFinderIndexRouteImport.update({
-  id: '/fit-finder/',
-  path: '/fit-finder/',
-  getParentRoute: () => ShopRoute,
-} as any)
 const ShopProductsSlugRoute = ShopProductsSlugRouteImport.update({
   id: '/products/$slug',
   path: '/products/$slug',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopScentFinderIndexRoute = ShopScentFinderIndexRouteImport.update({
+  id: '/scent-finder/',
+  path: '/scent-finder/',
   getParentRoute: () => ShopRoute,
 } as any)
 
@@ -268,7 +268,7 @@ export interface FileRoutesByFullPath {
   '/products/$slug': typeof ShopProductsSlugRoute
   '/account/': typeof ShopAccountIndexRoute
   '/checkout/': typeof ShopCheckoutIndexRoute
-  '/fit-finder/': typeof ShopFitFinderIndexRoute
+  '/scent-finder/': typeof ShopScentFinderIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof ShopIndexRoute
@@ -303,7 +303,7 @@ export interface FileRoutesByTo {
   '/products/$slug': typeof ShopProductsSlugRoute
   '/account': typeof ShopAccountIndexRoute
   '/checkout': typeof ShopCheckoutIndexRoute
-  '/fit-finder': typeof ShopFitFinderIndexRoute
+  '/scent-finder': typeof ShopScentFinderIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -343,7 +343,7 @@ export interface FileRoutesById {
   '/_shop/products/$slug': typeof ShopProductsSlugRoute
   '/_shop/account/': typeof ShopAccountIndexRoute
   '/_shop/checkout/': typeof ShopCheckoutIndexRoute
-  '/_shop/fit-finder/': typeof ShopFitFinderIndexRoute
+  '/_shop/scent-finder/': typeof ShopScentFinderIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -382,7 +382,7 @@ export interface FileRouteTypes {
     | '/products/$slug'
     | '/account/'
     | '/checkout/'
-    | '/fit-finder/'
+    | '/scent-finder/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -417,7 +417,7 @@ export interface FileRouteTypes {
     | '/products/$slug'
     | '/account'
     | '/checkout'
-    | '/fit-finder'
+    | '/scent-finder'
   id:
     | '__root__'
     | '/_auth'
@@ -456,7 +456,7 @@ export interface FileRouteTypes {
     | '/_shop/products/$slug'
     | '/_shop/account/'
     | '/_shop/checkout/'
-    | '/_shop/fit-finder/'
+    | '/_shop/scent-finder/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -712,18 +712,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopCollectionsMixAndMatchRouteImport
       parentRoute: typeof ShopRoute
     }
-    '/_shop/fit-finder/': {
-      id: '/_shop/fit-finder/'
-      path: '/fit-finder'
-      fullPath: '/fit-finder/'
-      preLoaderRoute: typeof ShopFitFinderIndexRouteImport
-      parentRoute: typeof ShopRoute
-    }
     '/_shop/products/$slug': {
       id: '/_shop/products/$slug'
       path: '/products/$slug'
       fullPath: '/products/$slug'
       preLoaderRoute: typeof ShopProductsSlugRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/_shop/scent-finder/': {
+      id: '/_shop/scent-finder/'
+      path: '/scent-finder'
+      fullPath: '/scent-finder/'
+      preLoaderRoute: typeof ShopScentFinderIndexRouteImport
       parentRoute: typeof ShopRoute
     }
   }
@@ -780,7 +780,7 @@ interface ShopRouteChildren {
   ShopCollectionsMixAndMatchRoute: typeof ShopCollectionsMixAndMatchRoute
   ShopProductsSlugRoute: typeof ShopProductsSlugRoute
   ShopCheckoutIndexRoute: typeof ShopCheckoutIndexRoute
-  ShopFitFinderIndexRoute: typeof ShopFitFinderIndexRoute
+  ShopScentFinderIndexRoute: typeof ShopScentFinderIndexRoute
 }
 
 const ShopRouteChildren: ShopRouteChildren = {
@@ -798,7 +798,7 @@ const ShopRouteChildren: ShopRouteChildren = {
   ShopCollectionsMixAndMatchRoute: ShopCollectionsMixAndMatchRoute,
   ShopProductsSlugRoute: ShopProductsSlugRoute,
   ShopCheckoutIndexRoute: ShopCheckoutIndexRoute,
-  ShopFitFinderIndexRoute: ShopFitFinderIndexRoute,
+  ShopScentFinderIndexRoute: ShopScentFinderIndexRoute,
 }
 
 const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)

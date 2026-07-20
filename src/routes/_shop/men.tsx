@@ -59,7 +59,7 @@ function MenHomePage() {
       <HeroSection
         title="Men's Core Fragrances"
         subtitle="Signature scents crafted with premium colognes, rich woods, and warm spices."
-        imageUrl="https://images.unsplash.com/photo-1620857321285-8f6fc6e23db9?auto=format&fit=crop&q=80&w=2000"
+        imageUrl="https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=2000&auto=format&fit=crop"
         ctaText="Shop All Men's Scents"
         ctaLink="/collections/men"
       />
@@ -83,7 +83,7 @@ function MenHomePage() {
         <HeroSection
           title="New Arrivals"
           subtitle="Elevate your style with our latest long-lasting masculine scent additions."
-          imageUrl="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=2000"
+          imageUrl="https://images.unsplash.com/photo-1595425970377-c9703bc48b4d?q=80&w=2000&auto=format&fit=crop"
           ctaText="Shop New Arrivals"
           ctaLink="/collections/new-arrivals"
         />

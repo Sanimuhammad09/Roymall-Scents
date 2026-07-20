@@ -108,6 +108,7 @@ const topLevelNav = [
   { name: "Men's Scents", hasMega: true, path: '/men' },
   { name: 'Unisex', path: '/collections/unisex' },
   { name: 'Gift Sets', path: '/collections/gifts' },
+  { name: 'Scent Finder', path: '/scent-finder' },
   { name: 'About', path: '/about' },
 ];
 

@@ -4,7 +4,7 @@ import { PageTransition } from '@/components/common/PageTransition';
 import { ArrowLeft } from 'lucide-react';
 
 export function AuthLayout() {
-  const authImage = "https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=1200&auto=format&fit=crop";
+  const authImage = "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=1200&auto=format&fit=crop";
 
   return (
     <div className="flex min-h-screen bg-ivory">

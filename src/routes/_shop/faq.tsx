@@ -34,18 +34,16 @@ const faqData = [
       },
       {
         q: 'How do I exchange an item?',
-        a: 'Start a return from your account dashboard and place a new order for the size/color you need. We\'ll refund the original as soon as we receive it.',
+        a: 'Start a return from your account dashboard and place a new order for the scent you need. We\'ll refund the original as soon as we receive it.',
       },
     ],
   },
   {
-    category: 'Product & Sizing',
+    category: 'Product & Fragrances',
     questions: [
       {
-        q: 'How do I find my size?',
-        a: 'Use our Fit Finder tool for personalized recommendations based on your body measurements and fit preferences. It takes less than 60 seconds!',
-        q: 'How do I find my scent?',
-        a: 'Use our Fragrance Finder tool for personalized recommendations based on your scent preferences and occasion. It takes less than 60 seconds!',
+        q: 'How do I find my perfect scent?',
+        a: 'Use our Scent Finder tool for personalized recommendations based on your fragrance preferences and occasions. It takes less than 60 seconds!',
       },
       {
         q: 'What ingredients do you use?',

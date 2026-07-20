@@ -32,7 +32,7 @@ function ContactPage() {
     },
     {
       title: "HEADQUARTERS",
-      value: "123 Fashion District, NY 10001",
+      value: "123 Fragrance District, NY 10001",
     },
     {
       title: "BUSINESS HOURS",

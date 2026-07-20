@@ -59,7 +59,7 @@ function WomenHomePage() {
       <HeroSection
         title="Women's Core Fragrances"
         subtitle="Immersive scent profiles. Luxury ingredients. 100% Captivating."
-        imageUrl="https://images.unsplash.com/photo-1584820927498-cafe8c1074bf?auto=format&fit=crop&q=80&w=2000"
+        imageUrl="https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=2000&auto=format&fit=crop"
         ctaText="Shop All Women's Scents"
         ctaLink="/collections/women"
       />
@@ -83,7 +83,7 @@ function WomenHomePage() {
         <HeroSection
           title="New Arrivals"
           subtitle="Discover our latest luxury perfumes and limited edition scent profiles."
-          imageUrl="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=80&w=2000"
+          imageUrl="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?q=80&w=2000&auto=format&fit=crop"
           ctaText="Shop New Arrivals"
           ctaLink="/collections/new-arrivals"
         />

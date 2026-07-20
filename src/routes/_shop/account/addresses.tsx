@@ -16,7 +16,7 @@ function AddressesPage() {
       isDefault: true,
       firstName: 'Jane',
       lastName: 'Doe',
-      address1: '123 Fashion Ave',
+      address1: '123 Fragrance Ave',
       address2: 'Apt 4B',
       city: 'New York',
       state: 'NY',

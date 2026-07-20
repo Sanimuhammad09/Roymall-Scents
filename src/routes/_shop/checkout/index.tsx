@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Lock, Tag, X, ChevronRight, ShieldCheck } from 'lucide-react';
+import { Lock, Tag, X, ChevronRight, ShieldCheck, CreditCard, Building } from 'lucide-react';
 import { useCartStore } from '@/store/cart.store';
 import { useAuthStore } from '@/store/auth.store';
 import { Button } from '@/components/ui/button';
@@ -42,6 +42,7 @@ function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [couponCode, setCouponCode] = useState('');
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank_transfer'>('card');
   
   // Payment Intent State
   const [orderId, setOrderId] = useState<string | null>(null);
@@ -108,20 +109,6 @@ function CheckoutPage() {
         const createdOrderId = orderResponse.data.data.id || orderResponse.data.id;
         setOrderId(createdOrderId);
 
-        // 2. Fetch Paystack Authorization URL
-        const intentResponse = await api.post('/payments/paystack/initialize', {
-          orderId: createdOrderId,
-          amount: total
-        });
-
-        const authUrl = intentResponse.data.data?.authorizationUrl || intentResponse.data.authorizationUrl;
-        
-        if (authUrl) {
-           window.location.href = authUrl;
-        } else {
-           throw new Error('No authorization URL received');
-        }
-
         setStep(2);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (error: any) {
@@ -129,6 +116,29 @@ function CheckoutPage() {
       } finally {
         setIsProcessing(false);
       }
+    }
+  };
+
+  const handleCompleteOrder = async () => {
+    if (!orderId) return;
+    setIsProcessing(true);
+    try {
+      const intentResponse = await api.post('/payments/paystack/initialize', {
+        orderId,
+        amount: total,
+        paymentMethod
+      });
+
+      const authUrl = intentResponse.data.data?.authorizationUrl || intentResponse.data.authorizationUrl;
+      
+      if (authUrl) {
+         window.location.href = authUrl;
+      } else {
+         throw new Error('No authorization URL received');
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to connect to payment gateway');
+      setIsProcessing(false);
     }
   };
 
@@ -287,16 +297,72 @@ function CheckoutPage() {
 
               {step === 2 && (
                 <div className="space-y-6">
-                  <div className="p-12 flex flex-col items-center justify-center text-center">
-                    <div className="w-12 h-12 border-4 border-neutral-200 border-t-black rounded-full animate-spin mb-6" />
-                    <h3 className="font-black text-charcoal text-lg mb-2">Redirecting to Paystack</h3>
-                    <p className="text-neutral-500 text-sm font-medium max-w-sm mx-auto">
-                      Please wait while we redirect you to our secure payment partner to complete your purchase.
-                    </p>
+                  <h3 className="font-bold text-charcoal mb-4">Select Payment Method</h3>
+                  
+                  <div className="grid gap-4">
+                    <label 
+                      className={`flex items-center gap-4 p-5 border-2 rounded-sm cursor-pointer transition-all ${
+                        paymentMethod === 'card' 
+                          ? 'border-black bg-neutral-50' 
+                          : 'border-neutral-200 hover:border-neutral-300'
+                      }`}
+                    >
+                      <input 
+                        type="radio" 
+                        name="paymentMethod" 
+                        value="card" 
+                        checked={paymentMethod === 'card'} 
+                        onChange={() => setPaymentMethod('card')}
+                        className="w-4 h-4 text-black focus:ring-black border-gray-300"
+                      />
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-neutral-200 text-charcoal">
+                          <CreditCard size={20} />
+                        </div>
+                        <div>
+                          <p className="font-bold text-charcoal text-[13px]">Card or Mobile Money</p>
+                          <p className="text-neutral-500 text-[11px] mt-0.5">Pay securely with any major card</p>
+                        </div>
+                      </div>
+                    </label>
+
+                    <label 
+                      className={`flex items-center gap-4 p-5 border-2 rounded-sm cursor-pointer transition-all ${
+                        paymentMethod === 'bank_transfer' 
+                          ? 'border-black bg-neutral-50' 
+                          : 'border-neutral-200 hover:border-neutral-300'
+                      }`}
+                    >
+                      <input 
+                        type="radio" 
+                        name="paymentMethod" 
+                        value="bank_transfer" 
+                        checked={paymentMethod === 'bank_transfer'} 
+                        onChange={() => setPaymentMethod('bank_transfer')}
+                        className="w-4 h-4 text-black focus:ring-black border-gray-300"
+                      />
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-neutral-200 text-charcoal">
+                          <Building size={20} />
+                        </div>
+                        <div>
+                          <p className="font-bold text-charcoal text-[13px]">Bank Transfer</p>
+                          <p className="text-neutral-500 text-[11px] mt-0.5">Direct transfer to a dedicated account</p>
+                        </div>
+                      </div>
+                    </label>
                   </div>
+
+                  <Button 
+                    className="w-full mt-6 py-6 text-[13px] font-black tracking-widest uppercase bg-black text-white" 
+                    onClick={handleCompleteOrder}
+                    disabled={isProcessing}
+                  >
+                    {isProcessing ? 'Redirecting...' : `Pay ${formatCurrency(total)} securely`}
+                  </Button>
                   
                   <p className="text-[11px] font-bold text-center text-neutral-400 mt-6 flex items-center justify-center gap-1.5 uppercase tracking-wide">
-                    <Lock size={12} /> Encrypted via 256-bit SSL
+                    <Lock size={12} /> Encrypted via 256-bit SSL by Paystack
                   </p>
                 </div>
               )}

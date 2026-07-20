@@ -1,5 +1,5 @@
 import React from 'react';
-import { createFileRoute, Outlet, Link, useLocation } from '@tanstack/react-router';
+import { createFileRoute, Outlet, Link, useLocation, useNavigate } from '@tanstack/react-router';
 import { User, Package, MapPin, Heart, Settings, LogOut, Bell } from 'lucide-react';
 import { useAuthStore } from '@/store/auth.store';
 
@@ -10,6 +10,12 @@ export const Route = createFileRoute('/_shop/account')({
 function AccountLayout() {
   const { logout } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate({ to: '/' });
+  };
 
   const links = [
     { name: 'Dashboard', path: '/account', icon: User, exact: true },
@@ -58,7 +64,7 @@ function AccountLayout() {
               })}
               <div className="h-px bg-neutral-200 my-2" />
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="flex items-center gap-4 px-5 py-4 text-[13px] tracking-[0.1em] uppercase font-bold text-red-500 hover:bg-red-50 transition-colors rounded-[2px] text-left w-full"
               >
                 <LogOut size={18} strokeWidth={2} />

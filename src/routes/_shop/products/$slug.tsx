@@ -9,6 +9,7 @@ import { useSEO } from '@/hooks/useSEO';
 import toast from 'react-hot-toast';
 
 import { useProduct, useRelatedProducts } from '@/features/products/api/hooks';
+import { useWishlist, useAddToWishlist, useRemoveFromWishlist } from '@/features/wishlist/api/hooks';
 
 export const Route = createFileRoute('/_shop/products/$slug')({
   component: ProductDetailPage,
@@ -38,6 +39,11 @@ function ProductDetailPage() {
   // Cross-sell state
   const [crossSellSize, setCrossSellSize] = useState('');
 
+  // Wishlist Hooks
+  const { data: wishlist } = useWishlist();
+  const { mutate: addToWishlist, isPending: isAddingToWishlist } = useAddToWishlist();
+  const { mutate: removeFromWishlist, isPending: isRemovingFromWishlist } = useRemoveFromWishlist();
+
   useEffect(() => {
     if (uniqueColors.length > 0 && !selectedColor) {
       setSelectedColor(uniqueColors[0].name);
@@ -61,7 +67,20 @@ function ProductDetailPage() {
     (v) => v.color === selectedColor && v.size === selectedSize
   );
 
-  const price = (product?.basePrice || 0) + (selectedVariant?.priceOffset || 0);
+  const price = product?.basePrice ? product.basePrice + (selectedVariant?.priceOffset || 0) : 0;
+
+  const isInWishlist = selectedVariant 
+    ? wishlist?.items?.some((item: any) => item.variantId === selectedVariant.id)
+    : false;
+
+  const handleWishlistToggle = () => {
+    if (!selectedVariant) return;
+    if (isInWishlist) {
+      removeFromWishlist(selectedVariant.id);
+    } else {
+      addToWishlist(selectedVariant.id);
+    }
+  };
 
   const addItem = useCartStore((state) => state.addItem);
 
@@ -223,8 +242,12 @@ function ProductDetailPage() {
               <h1 className="font-heading font-black text-2xl lg:text-3xl tracking-tight text-charcoal leading-tight">
                 {product.name}
               </h1>
-              <button className="w-10 h-10 flex-shrink-0 flex items-center justify-center border border-neutral-200 rounded-full text-charcoal hover:bg-neutral-50 transition-colors">
-                <Heart size={18} />
+              <button 
+                onClick={handleWishlistToggle}
+                disabled={!selectedVariant || isAddingToWishlist || isRemovingFromWishlist}
+                className="w-10 h-10 flex-shrink-0 flex items-center justify-center border border-neutral-200 rounded-full text-charcoal hover:bg-neutral-50 transition-colors"
+              >
+                <Heart size={18} className={isInWishlist ? 'fill-red-500 text-red-500' : ''} />
               </button>
             </div>
             

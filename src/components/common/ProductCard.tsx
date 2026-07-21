@@ -120,7 +120,7 @@ export function ProductCard({
 
         <Link
           to={`/products/${slug}`}
-          className="text-lg font-bold text-primary hover:text-black transition-colors leading-snug"
+          className="text-lg font-bold text-gold hover:text-black transition-colors leading-snug"
         >
           {name}
         </Link>
@@ -170,7 +170,7 @@ export function ProductCard({
 
         {/* Direct Add to Cart Button */}
         <button
-          className="mt-4 px-6 py-2.5 bg-primary text-white text-[13px] font-bold uppercase tracking-widest hover:bg-black transition-colors rounded-sm shadow-sm"
+          className="mt-4 px-6 py-2.5 bg-gold text-black text-[13px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors rounded-sm shadow-sm"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();

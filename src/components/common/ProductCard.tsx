@@ -120,7 +120,7 @@ export function ProductCard({
 
         <Link
           to={`/products/${slug}`}
-          className="text-lg font-bold text-gold hover:text-black transition-colors leading-snug"
+          className="text-lg font-bold text-primary hover:text-gold transition-colors leading-snug"
         >
           {name}
         </Link>

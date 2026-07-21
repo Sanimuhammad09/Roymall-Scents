@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { HeroSection } from '@/features/home/components/HeroSection';
+import { FeaturesStats } from '@/features/home/components/FeaturesStats';
 import { AllProductsGrid } from '@/features/home/components/AllProductsGrid';
 import { useSEO } from '@/hooks/useSEO';
 
@@ -16,6 +17,7 @@ function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <HeroSection />
+      <FeaturesStats />
       <AllProductsGrid />
     </div>
   );

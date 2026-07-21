@@ -37,7 +37,7 @@ export function ProductCard({
   if (isLoading) {
     return (
       <div className="flex flex-col gap-4 w-full">
-        <div className="w-full aspect-[3/4] bg-neutral-100 animate-pulse" />
+        <div className="w-full aspect-square bg-neutral-100 animate-pulse" />
         <div className="flex flex-col gap-2">
           <div className="h-4 w-3/4 bg-neutral-100 animate-pulse" />
           <div className="h-4 w-1/4 bg-neutral-100 animate-pulse" />
@@ -56,7 +56,7 @@ export function ProductCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
-      <div className="relative w-full aspect-[3/4] overflow-hidden bg-neutral-50 mb-4 block">
+      <div className="relative w-full aspect-square overflow-hidden bg-neutral-50 mb-4 block">
         <Link to={`/products/${slug}`} className="absolute inset-0 z-10" />
 
         {/* Wishlist */}
@@ -113,29 +113,28 @@ export function ProductCard({
       </div>
 
       {/* Product Info */}
-      <div className="flex flex-col gap-1.5 px-0.5">
-        <div className="flex justify-between items-start gap-4">
-          <Link
-            to={`/products/${slug}`}
-            className="text-[13px] font-bold text-black hover:text-neutral-600 transition-colors leading-snug font-heading tracking-wide"
-          >
-            {name}
-          </Link>
-          <div className="flex items-center gap-1.5 text-right flex-shrink-0">
-            {originalPrice && originalPrice > price && (
-              <span className="text-[13px] font-bold text-neutral-400 line-through tracking-wide">
-                {formatCurrency(originalPrice)}
-              </span>
-            )}
-            <span className="text-[13px] font-bold text-black tracking-wide">
-              {formatCurrency(price)}
-            </span>
-          </div>
-        </div>
-
-        <p className="text-[11px] font-bold text-neutral-500 uppercase tracking-widest mt-0.5">
+      <div className="flex flex-col gap-1.5 px-0.5 items-start">
+        <p className="text-[11px] font-medium text-neutral-500 mb-1">
            {colors && colors.length > 0 ? colors[activeColorIndex].name : 'Eau de Parfum'}
         </p>
+
+        <Link
+          to={`/products/${slug}`}
+          className="text-lg font-bold text-[#ff1da9] hover:text-[#fc5f5f] transition-colors leading-snug"
+        >
+          {name}
+        </Link>
+        
+        <div className="flex items-center gap-1.5 mt-1">
+          {originalPrice && originalPrice > price && (
+            <span className="text-sm font-bold text-neutral-400 line-through">
+              {formatCurrency(originalPrice)}
+            </span>
+          )}
+          <span className="text-[15px] font-black text-black">
+            {formatCurrency(price)}
+          </span>
+        </div>
 
         {/* Color Swatches */}
         {colors && colors.length > 0 && (
@@ -171,7 +170,7 @@ export function ProductCard({
 
         {/* Direct Add to Cart Button */}
         <button
-          className="mt-3 w-full py-2.5 bg-charcoal text-white text-[12px] font-bold uppercase tracking-wider hover:bg-black transition-colors"
+          className="mt-4 px-6 py-2.5 bg-[#ff1da9] text-white text-[13px] font-bold uppercase tracking-widest hover:bg-[#fc5f5f] transition-colors rounded-sm shadow-sm"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -190,7 +189,7 @@ export function ProductCard({
             useCartStore.getState().openCart();
           }}
         >
-          Add to Cart
+          BUY NOW
         </button>
       </div>
     </div>

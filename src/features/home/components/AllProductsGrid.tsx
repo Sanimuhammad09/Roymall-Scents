@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 import { ProductCard } from '@/components/common/ProductCard';
@@ -23,12 +22,10 @@ export function AllProductsGrid() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-white" id="shop-all">
-      <div className="container-premium px-4 sm:px-8">
-        {/* Removed Our Collection header to match the section-by-section screenshot */}
-
+    <section className="py-32 sm:py-40 bg-white" id="shop-all">
+      <div className="container-premium px-4 sm:px-8 max-w-7xl mx-auto">
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 sm:gap-16">
             {Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className="w-full">
                 <ProductCard isLoading={true} id="" slug="" name="" price={0} images={[]} colors={[]} />
@@ -36,14 +33,14 @@ export function AllProductsGrid() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col gap-20">
+          <div className="flex flex-col gap-32">
             {categories.map((category, catIdx) => (
               category.items.length > 0 && (
                 <div key={catIdx}>
-                  <h2 className="text-center font-bold text-3xl sm:text-4xl text-gold mb-8">
+                  <h2 className="text-center font-bold text-3xl sm:text-4xl text-gold mb-16 tracking-wide">
                     {category.title}
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 sm:gap-16">
                     {category.items.map((product: any, idx: number) => (
                       <motion.div
                         key={product.id}

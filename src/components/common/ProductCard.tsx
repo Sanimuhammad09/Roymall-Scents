@@ -56,30 +56,30 @@ export function ProductCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
-      <div className="relative w-full aspect-square overflow-hidden bg-neutral-50 mb-4 block">
+      <div className="relative w-full aspect-square overflow-hidden bg-neutral-50 mb-6 block">
         <Link to={`/products/${slug}`} className="absolute inset-0 z-10" />
 
         {/* Wishlist */}
         <button
-          className="absolute top-3 right-3 z-30 hover:scale-110 transition-transform duration-200"
+          className="absolute top-4 right-4 z-30 hover:scale-110 transition-transform duration-200"
           aria-label="Add to wishlist"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
           }}
         >
-          <Heart size={20} strokeWidth={1.5} className="text-neutral-900 hover:fill-neutral-900 transition-colors" />
+          <Heart size={22} strokeWidth={1.5} className="text-neutral-900 hover:fill-neutral-900 transition-colors" />
         </button>
 
         {/* Badges */}
-        <div className="absolute top-3 left-3 z-20 flex flex-col gap-1.5 pointer-events-none">
+        <div className="absolute top-4 left-4 z-20 flex flex-col gap-2 pointer-events-none">
           {isNew && (
-            <span className="bg-white px-2 py-1 text-[10px] font-bold tracking-[0.1em] uppercase text-black">
+            <span className="bg-white px-3 py-1.5 text-[11px] font-bold tracking-[0.1em] uppercase text-black shadow-sm">
               New
             </span>
           )}
           {isBestseller && (
-            <span className="bg-white px-2 py-1 text-[10px] font-bold tracking-[0.1em] uppercase text-black">
+            <span className="bg-white px-3 py-1.5 text-[11px] font-bold tracking-[0.1em] uppercase text-black shadow-sm">
               Best Seller
             </span>
           )}
@@ -108,69 +108,35 @@ export function ProductCard({
             loading="lazy"
           />
         </div>
-
-        {/* Removed Quick Add Slider */}
       </div>
 
       {/* Product Info */}
-      <div className="flex flex-col gap-1.5 px-0.5 items-start">
-        <p className="text-[11px] font-medium text-neutral-500 mb-1">
+      <div className="flex flex-col gap-3 px-1 items-start">
+        <p className="text-[12px] font-medium text-neutral-500 mb-1">
            {colors && colors.length > 0 ? colors[activeColorIndex].name : 'Eau de Parfum'}
         </p>
 
         <Link
           to={`/products/${slug}`}
-          className="text-lg font-bold text-primary hover:text-gold transition-colors leading-snug"
+          className="text-xl font-bold text-primary hover:text-gold transition-colors leading-snug"
         >
           {name}
         </Link>
         
-        <div className="flex items-center gap-1.5 mt-1">
+        <div className="flex items-center gap-2 mt-1">
           {originalPrice && originalPrice > price && (
             <span className="text-sm font-bold text-neutral-400 line-through">
               {formatCurrency(originalPrice)}
             </span>
           )}
-          <span className="text-[15px] font-black text-black">
+          <span className="text-lg font-black text-black">
             {formatCurrency(price)}
           </span>
         </div>
 
-        {/* Color Swatches */}
-        {colors && colors.length > 0 && (
-          <div className="flex items-center gap-2.5 mt-2">
-            {colors.slice(0, 5).map((color, index) => (
-              <button
-                key={color.name}
-                className={`relative w-4 h-4 rounded-full flex items-center justify-center transition-all outline-none ${
-                  activeColorIndex === index
-                    ? 'ring-1 ring-black ring-offset-2'
-                    : 'ring-1 ring-neutral-200 hover:ring-neutral-400'
-                }`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setActiveColorIndex(index);
-                }}
-                title={color.name}
-              >
-                <span
-                  className="block w-full h-full rounded-full absolute inset-0"
-                  style={{ backgroundColor: color.hex }}
-                />
-              </button>
-            ))}
-            {colors.length > 5 && (
-              <span className="text-[10px] font-bold text-neutral-500 ml-1 hover:text-black transition-colors cursor-pointer" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-                +{colors.length - 5}
-              </span>
-            )}
-          </div>
-        )}
-
         {/* Direct Add to Cart Button */}
         <button
-          className="mt-4 px-6 py-2.5 bg-gold text-black text-[13px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors rounded-sm shadow-sm"
+          className="mt-8 px-8 py-3.5 bg-gold text-black text-[13px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300 rounded-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -189,7 +155,7 @@ export function ProductCard({
             useCartStore.getState().openCart();
           }}
         >
-          BUY NOW
+          ADD TO CART
         </button>
       </div>
     </div>

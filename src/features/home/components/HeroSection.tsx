@@ -6,7 +6,7 @@ export function HeroSection() {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <section className="relative w-full h-[85vh] min-h-[600px] overflow-hidden bg-ivory flex items-center justify-center">
+    <section className="relative w-full h-[70vh] min-h-125 overflow-hidden bg-ivory flex items-center justify-center">
       {/* Full-width Background Image */}
       {!isImageLoaded && (
         <div className="absolute inset-0 bg-ivory animate-pulse z-0" />
@@ -23,33 +23,38 @@ export function HeroSection() {
       />
 
       {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/30 z-10" />
+      <div className="absolute inset-0 bg-black/40 z-10" />
 
-      {/* Text Overlay */}
+      {/* Text Overlay - Fastestcakes style */}
       <motion.div 
-        className="relative z-20 flex flex-col items-center justify-center text-center px-4 sm:px-8 w-full max-w-4xl mx-auto mt-16 lg:mt-24"
-        initial={{ opacity: 0, y: 30 }}
+        className="relative z-20 flex flex-col items-center justify-center text-center px-4 sm:px-8 w-full max-w-5xl mx-auto"
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <h1 className="font-heading font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.04em] text-white uppercase leading-none mb-4 drop-shadow-lg">
-          YOUR SIGNATURE SCENT
+        <h1 className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white uppercase leading-tight mb-6">
+          Order Amazing Perfumes from Just ₦16,500
         </h1>
         
-        <p className="text-white text-base sm:text-lg lg:text-xl font-medium tracking-wide max-w-2xl mb-8 drop-shadow-md">
-          Discover a curated collection of premium fragrances crafted for every mood. Elegance, confidence, and allure in every bottle.
-        </p>
+        <h2 className="font-heading font-semibold text-2xl sm:text-3xl md:text-4xl text-gold uppercase leading-tight mb-8">
+          Get Fast Shipping and Free Packaging!
+        </h2>
 
-        <a href="#shop-all">
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-gold text-white text-[13px] font-bold tracking-[0.15em] uppercase px-10 py-4 hover:bg-white hover:text-primary transition-colors duration-300"
+        <motion.div 
+          className="flex flex-col sm:flex-row gap-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          <Link
+            to="/collections/all"
+            className="bg-gold text-white text-[13px] font-bold tracking-[0.15em] uppercase px-8 py-3 hover:bg-white hover:text-primary transition-colors duration-300"
           >
             Shop Now
-          </motion.button>
-        </a>
+          </Link>
+        </motion.div>
       </motion.div>
     </section>
   );

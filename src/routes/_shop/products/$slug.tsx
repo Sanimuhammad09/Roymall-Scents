@@ -83,6 +83,7 @@ function ProductDetailPage() {
   };
 
   const addItem = useCartStore((state) => state.addItem);
+  const openCart = useCartStore((state) => state.openCart);
 
   const handleAddToCart = () => {
     if (!selectedVariant || !product) return;
@@ -97,7 +98,7 @@ function ProductDetailPage() {
       image: product.images?.[0]?.url || '',
       quantity,
     });
-    toast.success('Added to bag');
+    openCart();
   };
 
   const crossSellProduct = relatedProductsData?.[0];

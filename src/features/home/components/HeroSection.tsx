@@ -41,15 +41,15 @@ export function HeroSection() {
           Discover a curated collection of premium fragrances crafted for every mood. Elegance, confidence, and allure in every bottle.
         </p>
 
-        <Link to="/collections/women">
+        <a href="#shop-all">
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="bg-gold text-white text-[13px] font-bold tracking-[0.15em] uppercase px-10 py-4 hover:bg-white hover:text-primary transition-colors duration-300"
           >
-            Shop Collection
+            Shop Now
           </motion.button>
-        </Link>
+        </a>
       </motion.div>
     </section>
   );

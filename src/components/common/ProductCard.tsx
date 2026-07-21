@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { Heart, Check } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
+import { useCartStore } from '@/store/cart.store';
+import toast from 'react-hot-toast';
 
 export interface ProductCardProps {
   id: string;
@@ -107,31 +109,7 @@ export function ProductCard({
           />
         </div>
 
-        {/* Quick Add Slider */}
-        <div 
-          className={`absolute bottom-0 left-0 right-0 z-20 bg-white/95 backdrop-blur-sm p-4 transform transition-transform duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] flex flex-col gap-2 ${
-            isHovered ? 'translate-y-0' : 'translate-y-full'
-          }`}
-        >
-          <span className="text-[11px] font-bold tracking-[0.1em] uppercase text-center w-full block text-black mb-1">
-            Quick Add
-          </span>
-          <div className="flex items-center justify-center gap-2">
-            {['10ml', '50ml', '100ml'].map((size) => (
-              <button 
-                key={size}
-                className="w-10 h-10 flex items-center justify-center text-[12px] font-bold uppercase border border-neutral-200 hover:border-black hover:bg-black hover:text-white transition-all bg-white text-black"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  // Handle Add to Cart
-                }}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Removed Quick Add Slider */}
       </div>
 
       {/* Product Info */}
@@ -190,6 +168,30 @@ export function ProductCard({
             )}
           </div>
         )}
+
+        {/* Direct Add to Cart Button */}
+        <button
+          className="mt-3 w-full py-2.5 bg-charcoal text-white text-[12px] font-bold uppercase tracking-wider hover:bg-black transition-colors"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            useCartStore.getState().addItem({
+              variantId: `${id}-default`,
+              productId: id,
+              name: name,
+              slug: slug,
+              color: colors?.[activeColorIndex]?.name || 'Default',
+              size: '50ml',
+              price: price,
+              image: primaryImage,
+              quantity: 1
+            });
+            useCartStore.getState().openCart();
+          }}
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   );

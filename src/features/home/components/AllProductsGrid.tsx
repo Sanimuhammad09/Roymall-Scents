@@ -15,18 +15,17 @@ export function AllProductsGrid() {
   const products = liveProducts || [];
 
   const categories = [
-    { title: "Signature Series", items: products.slice(0, 3) },
-    { title: "New Fragrance Designs", items: products.slice(3, 6) },
-    { title: "Popular Perfumes", items: products.slice(6, 9) },
-    { title: "Our Special Scents", items: products.slice(9, 12) }
+    { title: "Top Sellers", items: products.slice(0, 4) },
+    { title: "New Fragrance Designs", items: products.slice(4, 8) },
+    { title: "Signature Scents", items: products.slice(8, 12) }
   ];
 
   return (
     <section className="py-32 sm:py-40 bg-white" id="shop-all">
       <div className="container-premium px-4 sm:px-8 max-w-7xl mx-auto">
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 sm:gap-16">
-            {Array.from({ length: 3 }).map((_, i) => (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
+            {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="w-full">
                 <ProductCard isLoading={true} id="" slug="" name="" price={0} images={[]} colors={[]} />
               </div>
@@ -37,10 +36,10 @@ export function AllProductsGrid() {
             {categories.map((category, catIdx) => (
               category.items.length > 0 && (
                 <div key={catIdx}>
-                  <h2 className="text-center font-bold text-3xl sm:text-4xl text-gold mb-16 tracking-wide">
+                  <h2 className="text-center font-heading font-normal text-3xl sm:text-4xl text-primary mb-12 tracking-wider">
                     {category.title}
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 sm:gap-16">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
                     {category.items.map((product: any, idx: number) => (
                       <motion.div
                         key={product.id}

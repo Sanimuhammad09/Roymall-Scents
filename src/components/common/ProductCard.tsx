@@ -56,30 +56,30 @@ export function ProductCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
-      <div className="relative w-full aspect-square overflow-hidden bg-neutral-50 mb-6 block">
+      <div className="relative w-full aspect-[4/5] overflow-hidden bg-neutral-50 block border border-border">
         <Link to={`/products/${slug}`} className="absolute inset-0 z-10" />
 
         {/* Wishlist */}
         <button
-          className="absolute top-4 right-4 z-30 hover:scale-110 transition-transform duration-200"
+          className="absolute top-4 right-4 z-30 p-2 bg-white/80 backdrop-blur-sm shadow-soft rounded-full hover:scale-110 transition-transform duration-200"
           aria-label="Add to wishlist"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
           }}
         >
-          <Heart size={22} strokeWidth={1.5} className="text-neutral-900 hover:fill-neutral-900 transition-colors" />
+          <Heart size={18} strokeWidth={1.5} className="text-primary hover:fill-primary transition-colors" />
         </button>
 
         {/* Badges */}
         <div className="absolute top-4 left-4 z-20 flex flex-col gap-2 pointer-events-none">
           {isNew && (
-            <span className="bg-white px-3 py-1.5 text-[11px] font-bold tracking-[0.1em] uppercase text-black shadow-sm">
+            <span className="bg-primary px-3 py-1 text-[10px] font-bold tracking-[0.15em] uppercase text-white shadow-soft">
               New
             </span>
           )}
           {isBestseller && (
-            <span className="bg-white px-3 py-1.5 text-[11px] font-bold tracking-[0.1em] uppercase text-black shadow-sm">
+            <span className="bg-accent px-3 py-1 text-[10px] font-bold tracking-[0.15em] uppercase text-primary shadow-soft">
               Best Seller
             </span>
           )}
@@ -89,11 +89,11 @@ export function ProductCard({
         {!isImageLoaded && (
           <div className="absolute inset-0 z-0 bg-neutral-100 animate-pulse" />
         )}
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full p-6 flex items-center justify-center">
           <img
             src={primaryImage}
             alt={name}
-            className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-500 ${
+            className={`absolute inset-0 w-full h-full object-contain object-center transition-opacity duration-700 ${
               isHovered ? 'opacity-0' : 'opacity-100'
             }`}
             onLoad={() => setIsImageLoaded(true)}
@@ -102,8 +102,8 @@ export function ProductCard({
           <img
             src={secondaryImage}
             alt={`${name} alternate view`}
-            className={`absolute inset-0 w-full h-full object-cover object-top transition-all duration-500 ${
-              isHovered ? 'opacity-100' : 'opacity-0'
+            className={`absolute inset-0 w-full h-full object-contain object-center transition-all duration-700 scale-105 ${
+              isHovered ? 'opacity-100 scale-100' : 'opacity-0'
             }`}
             loading="lazy"
           />
@@ -111,32 +111,32 @@ export function ProductCard({
       </div>
 
       {/* Product Info */}
-      <div className="flex flex-col gap-3 px-1 items-start">
-        <p className="text-[12px] font-medium text-neutral-500 mb-1">
+      <div className="flex flex-col gap-2 pt-5 items-center text-center">
+        <p className="text-[11px] font-bold tracking-widest text-accent uppercase mb-1">
            {colors && colors.length > 0 ? colors[activeColorIndex].name : 'Eau de Parfum'}
         </p>
 
         <Link
           to={`/products/${slug}`}
-          className="text-xl font-bold text-primary hover:text-gold transition-colors leading-snug"
+          className="font-heading text-lg md:text-xl font-normal text-primary hover:text-accent transition-colors leading-tight"
         >
           {name}
         </Link>
         
-        <div className="flex items-center gap-2 mt-1">
+        <div className="flex items-center justify-center gap-3 mt-1 mb-4">
           {originalPrice && originalPrice > price && (
-            <span className="text-sm font-bold text-neutral-400 line-through">
+            <span className="text-sm font-medium text-neutral-400 line-through">
               {formatCurrency(originalPrice)}
             </span>
           )}
-          <span className="text-lg font-black text-black">
+          <span className="text-lg font-bold text-primary">
             {formatCurrency(price)}
           </span>
         </div>
 
-        {/* Direct Add to Cart Button */}
+        {/* Direct Add to Cart Button - Structured Lattafa Style */}
         <button
-          className="mt-8 px-8 py-3.5 bg-gold text-black text-[13px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300 rounded-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          className="w-full py-3.5 border border-primary bg-transparent text-primary text-[12px] font-bold uppercase tracking-[0.15em] hover:bg-primary hover:text-white transition-all duration-300"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();

@@ -207,13 +207,6 @@ function CheckoutPage() {
                     exit={{ opacity: 0, height: 0 }}
                     className="space-y-5"
                   >
-                    {!isAuthenticated && (
-                      <div className="pb-5 mb-5 border-b border-neutral-100 flex items-center justify-between">
-                        <p className="text-[13px] font-bold text-neutral-500">Already have an account?</p>
-                        <Link to="/auth/login" className="text-[11px] font-black tracking-widest uppercase text-charcoal hover:underline underline-offset-4">Log in</Link>
-                      </div>
-                    )}
-
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Input placeholder="First Name" {...register('firstName')} className={`h-12 ${errors.firstName ? 'border-red-500' : ''}`} />

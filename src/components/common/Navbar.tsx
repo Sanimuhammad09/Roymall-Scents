@@ -104,11 +104,11 @@ const megaMenus: Record<string, MegaMenuData> = {
 };
 
 const topLevelNav = [
-  { name: "Women's Scents", hasMega: true, path: '/women' },
-  { name: "Men's Scents", hasMega: true, path: '/men' },
+  { name: 'New Launches', path: '/collections/new' },
+  { name: 'Men', hasMega: true, path: '/men' },
+  { name: 'Women', hasMega: true, path: '/women' },
   { name: 'Unisex', path: '/collections/unisex' },
   { name: 'Gift Sets', path: '/collections/gifts' },
-  { name: 'Scent Finder', path: '/scent-finder' },
   { name: 'About', path: '/about' },
 ];
 
@@ -170,103 +170,101 @@ export function Navbar() {
 
   return (
     <>
+      {/* ─── Top Announcement Bar ─── */}
+      <div className="w-full bg-accent text-primary text-[11px] font-bold tracking-widest uppercase py-2 text-center">
+        Get 5% Discount! Hurry Up. Sign up now.
+      </div>
+
       <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        className={`sticky top-0 z-50 w-full transition-all duration-300 border-b border-white/10 ${
           isScrolled
-            ? 'bg-primary shadow-lg'
+            ? 'bg-primary shadow-premium'
             : 'bg-primary'
         }`}
       >
         {/* ─── Desktop Navbar ─── */}
-        <div className="container-premium h-[60px] flex items-center justify-between relative">
-          {/* Left: Mobile menu button (mobile only) */}
-          <button 
-            className="lg:hidden p-2 -ml-2 text-white hover:text-gold transition-colors"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Open menu"
-          >
-            <Menu size={24} strokeWidth={2} />
-          </button>
+        <div className="container-premium h-[80px] flex items-center justify-between relative">
+          {/* Left: Mobile menu button (mobile only) & Desktop Links */}
+          <div className="flex-1 flex items-center justify-start">
+            <button 
+              className="lg:hidden p-2 -ml-2 text-white hover:text-accent transition-colors"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu size={24} strokeWidth={1.5} />
+            </button>
+            
+            <nav className="hidden lg:flex items-center gap-8 h-full">
+              {topLevelNav.map((item) =>
+                item.hasMega ? (
+                  <button
+                    key={item.name}
+                    onMouseEnter={() => openMega(item.name)}
+                    onMouseLeave={closeMega}
+                    className={`h-[80px] flex items-center text-[13px] uppercase font-bold tracking-widest transition-colors ${
+                      activeMega === item.name ? 'text-accent' : 'text-white hover:text-accent'
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.name}
+                    to={item.path!}
+                    className="h-[80px] flex items-center text-[13px] uppercase font-bold tracking-widest text-white hover:text-accent transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                )
+              )}
+            </nav>
+          </div>
 
-          {/* Logo */}
-          <div className="absolute left-1/2 -translate-x-1/2 lg:static lg:transform-none flex items-center justify-center lg:justify-start">
+          {/* Center: Logo */}
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
             <Link to="/" className="flex items-center">
-              <img src="/images/logo.jpg" alt="Roymall Scents" className="h-[50px] lg:h-[70px] w-auto object-contain" />
+              <img src="/images/logo.jpg" alt="Roymall Scents" className="h-[60px] lg:h-[80px] w-auto object-contain py-2" />
             </Link>
           </div>
 
-          {/* Center: Desktop nav links */}
-          <nav className="hidden lg:flex items-center gap-6 h-full">
-            {topLevelNav.map((item) =>
-              item.hasMega ? (
-                <button
-                  key={item.name}
-                  onMouseEnter={() => openMega(item.name)}
-                  onMouseLeave={closeMega}
-                  className={`h-full border-b-2 flex items-center text-[13px] font-bold tracking-[0.04em] transition-colors ${
-                    activeMega === item.name ? 'border-gold text-gold' : 'border-transparent text-white/90 hover:text-gold hover:border-gold/50'
-                  }`}
-                >
-                  {item.name}
-                </button>
-              ) : (
-                <Link
-                  key={item.name}
-                  to={item.path!}
-                  className="h-full border-b-2 border-transparent flex items-center text-[13px] font-bold tracking-[0.04em] text-white/90 hover:text-gold hover:border-gold/50 transition-colors"
-                >
-                  {item.name}
-                </Link>
-              )
-            )}
-          </nav>
-
           {/* Right: Actions */}
-          <div className="flex items-center gap-3 md:gap-5">
-            {/* Search Pill */}
-            <button
-              className="hidden lg:flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5 text-white/90 hover:border-gold hover:text-gold transition-colors"
-              aria-label="Search"
-            >
-              <Search size={16} strokeWidth={2} />
-              <span className="text-[12px] font-medium tracking-[0.02em]">Search</span>
-            </button>
-
+          <div className="flex-1 flex items-center justify-end gap-6">
+            <div className="hidden lg:flex items-center gap-2 text-white text-[12px] font-bold tracking-widest">
+              <span className="cursor-pointer hover:text-accent transition-colors">EN</span>
+              <span className="text-white/30">|</span>
+              <span className="cursor-pointer hover:text-accent transition-colors">AR</span>
+            </div>
+            
             {/* Icons */}
-            <div className="flex items-center gap-2 md:gap-4">
-              <div className="hidden lg:flex items-center gap-1.5 cursor-pointer">
-                <div className="w-5 h-3.5 bg-neutral-200 rounded-[2px] overflow-hidden flex relative border border-black/10">
-                  <div className="absolute top-0 left-0 w-[40%] h-full bg-blue-800"></div>
-                  <div className="absolute top-0 right-0 w-[60%] h-full flex flex-col justify-between py-[1px]">
-                    <div className="h-[2px] bg-red-600 w-full"></div>
-                    <div className="h-[2px] bg-red-600 w-full"></div>
-                    <div className="h-[2px] bg-red-600 w-full"></div>
-                  </div>
-                </div>
-                <span className="text-[12px] font-bold text-white">EN</span>
-              </div>
+            <div className="flex items-center gap-4">
+              <button
+                className="text-white hover:text-accent transition-colors hidden sm:flex"
+                aria-label="Search"
+              >
+                <Search size={22} strokeWidth={1.5} />
+              </button>
               <Link
                 to="/account"
-                className="text-white/90 hover:text-gold transition-colors hidden sm:flex"
+                className="text-white hover:text-accent transition-colors hidden sm:flex"
                 aria-label="Account"
               >
-                <User size={20} strokeWidth={1.5} />
+                <User size={22} strokeWidth={1.5} />
               </Link>
               <Link
                 to="/account/wishlist"
-                className="text-white/90 hover:text-gold transition-colors hidden sm:flex"
+                className="text-white hover:text-accent transition-colors hidden sm:flex"
                 aria-label="Wishlist"
               >
-                <Heart size={20} strokeWidth={1.5} />
+                <Heart size={22} strokeWidth={1.5} />
               </Link>
               <button
-                className="text-white/90 hover:text-gold transition-colors relative"
+                className="text-white hover:text-accent transition-colors relative"
                 aria-label="Cart"
                 onClick={() => useCartStore.getState().toggleCart()}
               >
-                <ShoppingBag size={20} strokeWidth={1.5} />
+                <ShoppingBag size={22} strokeWidth={1.5} />
                 {cartItems > 0 && (
-                  <span className="absolute -top-1 -right-1.5 bg-gold text-primary text-[10px] font-bold w-[16px] h-[16px] rounded-full flex items-center justify-center leading-none shadow-sm">
+                  <span className="absolute -top-1.5 -right-2 bg-accent text-primary text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center leading-none shadow-sm">
                     {cartItems}
                   </span>
                 )}

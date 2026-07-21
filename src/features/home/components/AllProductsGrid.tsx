@@ -40,7 +40,7 @@ export function AllProductsGrid() {
             {categories.map((category, catIdx) => (
               category.items.length > 0 && (
                 <div key={catIdx}>
-                  <h2 className="text-center font-bold text-3xl sm:text-4xl text-[#ff1da9] mb-8">
+                  <h2 className="text-center font-bold text-3xl sm:text-4xl text-primary mb-8">
                     {category.title}
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
